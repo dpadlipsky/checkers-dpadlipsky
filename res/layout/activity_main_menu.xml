@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/woooood"
+    tools:context="com.example.davidpadlipsky.checkers.mainMenu"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <Button
+        android:id="@+id/options"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="#303030"
+        android:elevation="0dp"
+        android:fontFamily="serif-monospace"
+        android:text="Version"
+        android:textColor="@android:color/background_light"
+        android:textSize="25sp"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Hard"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/Hard"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="266dp"
+        android:background="#303030"
+        android:fontFamily="serif-monospace"
+        android:text="Two Players"
+        android:textColor="@android:color/background_light"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/oneplayer"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="#303030"
+        android:fontFamily="serif-monospace"
+        android:text="One Player"
+        android:textColor="@android:color/background_light"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/Hard"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+</android.support.constraint.ConstraintLayout>

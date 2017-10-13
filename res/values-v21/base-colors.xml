@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2013 The Android Open Source Project
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<resources>
+    <color name="updateTileRed">#939BA6</color>
+    <color name="lightGreen">#414770</color>
+    <color name="lightBlue">#4d4d4d</color>
+    <color name="highlight">#ffffff</color>
+    <color name="darkRed">#63ff0000</color>
+    <color name="tile">#566273</color>
+    <color name="updateTileBlack">#567C83</color>
+    <color name="ivory">#CAD6E5</color>
+    <color name="gray">#959595</color>
+    <color name="border">#225560</color>
+    <color name="text">#cad6e5</color>
+
+</resources>
+
+
+    <!--#020C16-->
+<!--#566273-->
+<!--#CAD6E5-->
+<!--#57B1A2-->
