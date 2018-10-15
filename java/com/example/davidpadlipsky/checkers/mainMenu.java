@@ -18,9 +18,6 @@ public class mainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main_menu);
         twoplayer = (Button)findViewById(R.id.Hard);
         twoplayer.setOnClickListener(onClickListener);
@@ -28,15 +25,6 @@ public class mainMenu extends AppCompatActivity {
         oneplayer.setOnClickListener(onClickListener);
         options = (Button)findViewById(R.id.options);
         options.setOnClickListener(onClickListener);
-//        View decorView = getWindow().getDecorView();
-//// Hide the status bar.
-//        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//        decorView.setSystemUiVisibility(uiOptions);
-//// Remember that you should never show the action bar if the
-//// status bar is hidden, so hide that too if necessary.
-//        ActionBar actionBar = getActionBar();
-//        actionBar.hide();
-
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener(){
@@ -49,8 +37,6 @@ public class mainMenu extends AppCompatActivity {
                     break;
                 }
                 case R.id.Hard:{
-//                    Intent intent = new Intent(this, checkers2Players.class);
-//                    startActivity(intent);
                     startTwoPlayer();
                     break;
                 }
@@ -74,9 +60,5 @@ public class mainMenu extends AppCompatActivity {
     private void startOptions(){
         Intent intent = new Intent(this, options.class);
         startActivity(intent);
-    }
-
-    {
-
     }
 }

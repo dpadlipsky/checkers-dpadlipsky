@@ -25,7 +25,7 @@ import java.util.TimerTask;
 
 public class checkers2Players extends AppCompatActivity {
 
-    space start = new space (-1,-1);
+    space start = new space(-1,-1);
     TextView testTxt;
     private int buttonCounter = 0;
     gameBoard game = new gameBoard();
@@ -53,19 +53,14 @@ public class checkers2Players extends AppCompatActivity {
     TextView p1text;
     TextView p2text;
     int screenHeight;
-//    TableLayout buttons;
     TableLayout pics;
     ImageView top;
     ImageView bot;
     ImageView left;
     ImageView right;
     TableLayout buttons;
-    boolean abc = true;
+    boolean board_formatted  = true;
     Stack<undoMove> undoMoveStack = new Stack<>();
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +70,6 @@ public class checkers2Players extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.checkers2player);
         testTxt = (TextView)findViewById(R.id.TESTTXT);
-        //testTxt.setText("HELLO");
         undoButt = (Button) findViewById(R.id.undoButton);
         p1text = (TextView)findViewById(R.id.p1text);
         p2text = (TextView)findViewById(R.id.p2text);
@@ -164,7 +158,6 @@ public class checkers2Players extends AppCompatActivity {
         right = (ImageView)findViewById(R.id.right);
         left = (ImageView)findViewById(R.id.left);
         resetBoard();
-//
         player1Score = (TextView)findViewById(R.id.player1score);
         player2Score = (TextView)findViewById(R.id.player2score);
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -212,17 +205,6 @@ public class checkers2Players extends AppCompatActivity {
             imgArr[6][i].getLayoutParams().height=screenHeight;
             imgArr[6][i].getLayoutParams().width=screenHeight;
             i--;
-
-//
-//            imgArr[3][i].setLayoutParams(parms);
-//            imgArr[5][i].setLayoutParams(parms);
-//            imgArr[7][i].setLayoutParams(parms);
-//            i++;
-//            imgArr[0][i].setLayoutParams(parms);
-//            imgArr[2][i].setLayoutParams(parms);
-//            imgArr[4][i].setLayoutParams(parms);
-//            imgArr[6][i].setLayoutParams(parms);
-//            i--;
         }
         undoButt.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener()
@@ -260,7 +242,7 @@ public class checkers2Players extends AppCompatActivity {
                         testTxt.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
-        if (abc) {
+        if (board_formatted ) {
             fixTextView test = new fixTextView();
             test.execute(null, null, null);
         }
@@ -291,7 +273,7 @@ public class checkers2Players extends AppCompatActivity {
     @Override
     protected  void onResume(){
         super.onResume();
-        if (!abc) {
+        if (!board_formatted ) {
             for (int i = 0; i < 8; i = i + 2) {
                 btnArr[1][i].getLayoutParams().height = screenHeight;
                 btnArr[1][i].getLayoutParams().width = screenHeight;
@@ -537,7 +519,6 @@ public class checkers2Players extends AppCompatActivity {
     };
     public void undoTheMove(){
         if (game.undoMoves(undoMoveStack)){
-//            Log.v(TAG, "LEN: "+ undoMoveArr.len);
             turnNumber--;
             if (turnNumber%2== 0)
             {
@@ -802,7 +783,7 @@ public class checkers2Players extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             testTxt.setText("Player 1's Turn!");
-            abc= false;
+            board_formatted = false;
         }
 
         @Override
@@ -858,15 +839,6 @@ public class checkers2Players extends AppCompatActivity {
 
             buttons.setLayoutParams(params);
             pics.setLayoutParams(params);
-//            ViewGroup.LayoutParams banners = buttons.getLayoutParams();
-//            banners.width = (int)width;
-//            banners.height = (int)bannerWidth;
-//            top.setLayoutParams(banners);
-//            bot.setLayoutParams(banners);
-//            banners.width = (int)bannerWidth;
-//            banners.height = (int)width;
-//            left.setLayoutParams(banners);
-//            right.setLayoutParams(banners);
             top.getLayoutParams().height=(int)bannerWidth;
             top.getLayoutParams().width = (int)width;
             bot.getLayoutParams().height=(int)bannerWidth;
@@ -932,25 +904,11 @@ public class checkers2Players extends AppCompatActivity {
             undoButt.getLocationOnScreen(arrB);
             int tI = testTxt.getHeight();
             int midway = ((arrI[1]+arrB[1]+ hI - (tI/2))/2);
-//            testTxt.setY(midway);
             testTxt.setText("Player 1's Turn!");
 
             testTxt.setY(midway);
-//            int arrI[] = new int[2];
-//            int arrB[] = new int[2];
-//            int hI = imgArr[7][6].getHeight();
-//            int sbI = undoButt.getHeight();
-//            imgArr[7][6].getLocationOnScreen(arrI);
-//            undoButt.getLocationOnScreen(arrB);
-//            int tI = testTxt.getHeight();
-//            int midway = ((arrI[1]+arrB[1]+hI+(tI/2))/2);
-////            testTxt.setY(midway);
             testTxt.setText("Player 1's Turn!");
-            abc = false;
-
-
-
-
+            board_formatted  = false;
         }
     }
     private void suggestMoveUpdate() {

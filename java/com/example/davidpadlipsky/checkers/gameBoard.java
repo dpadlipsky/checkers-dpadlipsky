@@ -15,31 +15,6 @@ public class gameBoard {
 
     gameBoard() {
         gameOverFlag = 0;
-//        for (int n = 0; n < 8; n++) {
-//            for (int m = 0; m < 8; m++) {
-//                arr[m][n] = ' ';
-//            }
-//        }
-//        for (int n = 0; n < 4; n++) {
-//            arr[7][(2 * n)] = 'x';
-//            arr[5][(2 * n)] = 'x';
-//            arr[1][(2 * n)] = 'o';
-//        }
-//        for (int n = 1; n < 5; n++) {
-//            arr[0][2 * n - 1] = 'o';
-//            arr[2][2 * n - 1] = 'o';
-//            arr[6][2 * n - 1] = 'x';
-//        }
-//        for (int n = 0; n < 4; n++) {
-//            for (int m = 0; m < 4; m++) {
-//                arr[2 * m][2 * n] = (char) '#';//219
-//            }
-//        }
-//        for (int n = 1; n < 5; n++) {
-//            for (int m = 1; m < 5; m++) {
-//                arr[2 * m - 1][2 * n - 1] = (char) '#';
-//            }
-//        }
     }
 
     public void reset() {
@@ -60,7 +35,7 @@ public class gameBoard {
         }
         for (int n = 0; n < 4; n++) {
             for (int m = 0; m < 4; m++) {
-                arr[2 * m][2 * n] = (char) '#';//219
+                arr[2 * m][2 * n] = (char) '#';//Char code 219
             }
         }
         for (int n = 1; n < 5; n++) {
@@ -263,9 +238,7 @@ public class gameBoard {
             for (int m = 0; m < 6; m++) {
                 oneDown = n + 1;
                 twoDown = n + 2;
-                //oneLeft = m-1;
                 oneRight = m + 1;
-                // twoLeft = m-2;
                 twoRight = m + 2;
 
                 if ((arr[n][m] == ch1 && (((arr[oneDown][oneRight] == ch2 || arr[oneDown][oneRight] == Character.toUpperCase(ch2)) &&
@@ -303,7 +276,6 @@ public class gameBoard {
             forcedJump = true;
         }
         return forcedJump;
-        // return false;
     }
 
     public boolean oForcedJump() {
@@ -569,58 +541,6 @@ public class gameBoard {
         return len;
     }
     public boolean undoMoves (Stack<undoMove> undoMoveStack){
-//        if (moveArr.len!=0) {
-//            int turnNum1 = moveArr.arr[moveArr.len - 1].turnNumber;
-//            int turnNum2=turnNum1;
-//            while (turnNum1 == turnNum2) {
-//                int xVal1 = moveArr.arr[moveArr.len - 1].xVal1;
-//                int xVal2 = moveArr.arr[moveArr.len - 1].xVal2;
-//                int yVal1 = moveArr.arr[moveArr.len - 1].yVal1;
-//                int yVal2 = moveArr.arr[moveArr.len - 1].yVal2;
-//                if (pieceX(xVal2, yVal2)) {
-//                    arr[yVal2][xVal2] = ' ';
-//                    arr[yVal1][xVal1] = 'x';
-//                } else if (pieceO(xVal2, yVal2)) {
-//                    arr[yVal2][xVal2] = ' ';
-//                    arr[yVal1][xVal1] = 'o';
-//                } else if (pieceXKing(xVal2, yVal2)) {
-//                    arr[yVal2][xVal2] = ' ';
-//                    arr[yVal1][xVal1] = 'X';
-//                } else if (pieceOKing(xVal2, yVal2)) {
-//                    arr[yVal2][xVal2] = ' ';
-//                    arr[yVal1][xVal1] = 'O';
-//                }
-//
-//                if (moveArr.arr[moveArr.len - 1].jump) {
-//                    arr[(yVal1 + yVal2) / 2][(xVal1 + xVal2) / 2] = moveArr.arr[moveArr.len - 1].jumpPiece;
-////                    Log.v(TAG, "JUMP TRUE");
-//                }
-//                if (moveArr.arr[moveArr.len-1].king){
-//                    Log.v(TAG, "S:LKfjaksjkl[j");
-//                    if (pieceXKing(xVal1, yVal1)) {
-//                        arr[yVal1][xVal1] = 'x';
-//                    } else if (pieceOKing(xVal1, yVal1)) {
-//                        arr[yVal1][xVal1] = 'o';
-//                    }
-//                }
-//                moveArr.len--;
-//                if (moveArr.len == 0) {
-//                    Log.v(TAG, "BROKE");
-//                    break;
-//                }
-//                else {
-//                    Log.v(TAG, "VALS:" + moveArr.arr[moveArr.len - 1].xVal1 + moveArr.arr[moveArr.len - 1].xVal2);
-//                    turnNum2 = moveArr.arr[moveArr.len - 1].turnNumber;
-//                }
-//
-//            }
-//
-//            return true;
-//        }
-//        else {
-//            Log.v(TAG, "EQUALS 0");
-//            return false;
-//        }
         if (!undoMoveStack.empty()) {
 
             int turnNum1 = undoMoveStack.peek().turnNumber;
@@ -647,10 +567,8 @@ public class gameBoard {
 
                 if (move1.jump) {
                     arr[(yVal1 + yVal2) / 2][(xVal1 + xVal2) / 2] = move1.jumpPiece;
-//                    Log.v(TAG, "JUMP TRUE");
                 }
                 if (move1.king){
-                    Log.v(TAG, "S:LKfjaksjkl[j");
                     if (pieceXKing(xVal1, yVal1)) {
                         arr[yVal1][xVal1] = 'x';
                     } else if (pieceOKing(xVal1, yVal1)) {

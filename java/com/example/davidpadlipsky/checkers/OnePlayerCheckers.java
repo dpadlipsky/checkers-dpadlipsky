@@ -62,13 +62,11 @@ public class OnePlayerCheckers extends AppCompatActivity {
     ImageView top;
     ImageView bot;
     ImageView left;
-    boolean abc = true;
+    boolean board_formatted = true;
     ImageView right;
     TableLayout buttons;
     TableLayout pics;
-//    OturnTest oTurnBack = new OturnTest();
-//    fixTextView fixBackground = new fixTextView();
-//    sugestMove sMove = new sugestMove();
+
     Stack<undoMove> undoMoveStack = new Stack<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +76,6 @@ public class OnePlayerCheckers extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_one_player_checkers);
         testTxt = (TextView) findViewById(R.id.TESTTXT);
-        //testTxt.setText("HELLO");
         p1text = (TextView) findViewById(R.id.p1text);
         p2text = (TextView) findViewById(R.id.p2text);
         undoButt = (Button) findViewById(R.id.undoButton);
@@ -129,7 +126,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
         suggestMoveButt = (Button)findViewById(R.id.suggestMove);
 
         suggestMoveButt.setOnClickListener(onClickListener1);
-        undoButt.setOnClickListener(onClickListener2);
+        undoButt.setOnClickListener(undoMoveListener);
         imgArr[1][0] = (ImageView) findViewById(R.id.im01);
         imgArr[3][0] = (ImageView) findViewById(R.id.im03);
         imgArr[5][0] = (ImageView) findViewById(R.id.im05);
@@ -172,10 +169,6 @@ public class OnePlayerCheckers extends AppCompatActivity {
         player2Score = (TextView) findViewById(R.id.player2score);
         Intent intent = getIntent();
         movesAhead = intent.getIntExtra("movesAhead", 0);
-
-
-
-
     }
 
     @Override
@@ -206,6 +199,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
             btnArr[6][i].getLayoutParams().width=screenHeight;
             i--;
         }
+
         LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(screenHeight,screenHeight);
         for (int i = 0; i < 8; i=i+2){
             imgArr[1][i].getLayoutParams().height=screenHeight;
@@ -228,6 +222,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
             i--;
 
         }
+
         undoButt.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener()
                 {
@@ -360,12 +355,13 @@ public class OnePlayerCheckers extends AppCompatActivity {
                         left.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
-        if (abc) {
+        if (board_formatted) {
             fixTextView test = new fixTextView();
             test.execute(null, null, null);
         }
     }
-    private View.OnClickListener onClickListener2 = new View.OnClickListener() {
+
+    private View.OnClickListener undoMoveListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             undoTheMove();
@@ -375,18 +371,18 @@ public class OnePlayerCheckers extends AppCompatActivity {
     private View.OnClickListener onClickListener1 = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (gameOver==0&&suggestInProgress==0) {
+            if (!gameOver && !suggestInProgress) {
                 sugestMove test = new sugestMove();
                 test.execute(null, null, null);
                 suggestInProgress++;
             }
         }
     };
-    //
+
     @Override
     protected void onResume(){
         super.onResume();
-        if (!abc) {
+        if (!board_formatted) {
             for (int i = 0; i < 8; i = i + 2) {
                 btnArr[1][i].getLayoutParams().height = screenHeight;
                 btnArr[1][i].getLayoutParams().width = screenHeight;
@@ -430,13 +426,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
             }
         }
     }
-    @Override
-    protected void onPause(){
-        super.onPause();
-//        sMove.cancel(true);
-//        oTurnBack.cancel(true);
-//        fixBackground.cancel(true);
-    }
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
 
         @Override
@@ -582,10 +572,8 @@ public class OnePlayerCheckers extends AppCompatActivity {
                 yVal1 = -1;
             } else if (turnNumber % 2 == 0) {
                 if (game.pieceX(start.getxVal(), start.getyVal()) || game.pieceXKing(start.getxVal(), start.getyVal())) {
-
                     if (xVal1 != -1) {
                         for (int i = 0; i < len; i++) {
-//                            imgArr[moveArr[i].xVal2][moveArr[i].yVal2].setImageResource(android.R.color.transparent);
                             btnArr[moveArr[i].xVal2][moveArr[i].yVal2].setBackgroundResource(R.color.tile);
                             btnArr[moveArr[i].xVal1][moveArr[i].yVal1].setBackgroundResource(R.color.tile);
 
@@ -593,15 +581,14 @@ public class OnePlayerCheckers extends AppCompatActivity {
                         }
                     }
                     len = game.xPossibleMove(moveArr, start.getxVal(), start.getyVal());
+
                     for (int i = 0; i < len; i++) {
-//                        btnArr[moveArr[i].xVal2][moveArr[i].yVal2].setBackgroundColor();
                         btnArr[moveArr[i].xVal2][moveArr[i].yVal2].setBackgroundResource(R.color.updateTileBlack);
-//                        btnArr[moveArr[i].xVal1][moveArr[i].yVal1].setBackgroundResource(R.color.highlight);
-
-
                     }
+
                     xVal1 = start.getxVal();
                     yVal1 = start.getyVal();
+
                 } else {
                     for (int i = 0; i < len; i++) {
                         if (start.getxVal() == moveArr[i].xVal2 && start.getyVal() == moveArr[i].yVal2) {
@@ -627,13 +614,12 @@ public class OnePlayerCheckers extends AppCompatActivity {
                 turnNumber--;
             }
         }
-        if (turnNumber%2==1){
+        if (turnNumber % 2 == 1) {
             if (game.undoMoves(undoMoveStack)) {
                 turnNumber--;
             }
         }
         updateBoard();
-
     }
 
     private void resetCounter() {
@@ -653,7 +639,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
             if (turnNumber % 2 == 0) {
                 xTurn();
             }
-            OturnTest test = new OturnTest();
+            SugestMoveAsync test = new SugestMoveAsync();
             test.execute(null, null, null);
         }
 
@@ -663,15 +649,14 @@ public class OnePlayerCheckers extends AppCompatActivity {
         boolean king = false;
         if (yVal2 == 0) {
             if (game.pieceX(xVal1, yVal1)) {
-                Log.v(TAG, "KING=TRUE");
                 king = true;
             }
         } else if (yVal2 == 7) {
             if (game.pieceO(xVal1, yVal1)) {
-                Log.v(TAG, "KING=TRUE");
                 king = true;
             }
         }
+
         if (jp == true) {
             undoMove move1 = new undoMove(1,1,1,1,1,false,king);
             if (game.pieceO((xVal1 + xVal2) / 2, (yVal1 + yVal2) / 2)) {
@@ -752,13 +737,9 @@ public class OnePlayerCheckers extends AppCompatActivity {
                 testTxt.setText("X INVALID MOVE!");
             }
         }
-//        testTxt.setText("len :"+undoMoveArr.len);
-
-
     }
 
     private void resetBoard() {
-
         for (int i = 0; i < 8; i=i+2){
             btnArr[1][i].setBackgroundResource(R.color.tile);
             btnArr[3][i].setBackgroundResource(R.color.tile);
@@ -769,6 +750,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
             btnArr[4][i+1].setBackgroundResource(R.color.tile);
             btnArr[6][i+1].setBackgroundResource(R.color.tile);
         }
+
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (game.arr[i][j] == 'x') {
@@ -782,28 +764,20 @@ public class OnePlayerCheckers extends AppCompatActivity {
                     }
                     imgArr[j][i].setImageResource(R.drawable.darkbluecircle);
                 } else if (game.arr[i][j] == ' ') {
-
                     imgArr[j][i].setImageResource(android.R.color.transparent);
-
                 } else if (game.arr[i][j] == 'X') {
                     if (xVal2 == j && yVal2 == i) {
                         btnArr[j][i].setBackgroundResource(R.color.updateTileBlack);
                     }
                     imgArr[j][i].setImageResource(R.drawable.bluex);
-
                 } else if (game.arr[i][j] == 'O') {
                     if (xVal2 == j && yVal2 == i) {
                         btnArr[j][i].setBackgroundResource(R.color.updateTileRed);
-
-
                     }
                     imgArr[j][i].setImageResource(R.drawable.darkbluex);
-
                 }
             }
-
         }
-
     }
 
     private void updateBoard() {
@@ -812,11 +786,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
         player2Score.setText(Integer.toString(game.oCounter()));
         game.setGameOver(turnNumber, jumplessTurns);
         gameOver = game.gameOverFlag;
-//        if(movesAhead == 5){
-//            if (game.xCounter()+game.oCounter()<=12){
-//                movesAhead = 10;
-//            }
-//        }
+
         if (gameOver != 0) {
             if (gameOver == 1) {
                 testTxt.setText("Player 1 Wins!");
@@ -829,10 +799,10 @@ public class OnePlayerCheckers extends AppCompatActivity {
     }
 
     private void oTurn() throws InterruptedException {
-        AI ai1 = new AI();
+        AI aiObj = new AI();
 
         if (doubleJump) {
-            PossibleMove move1 = ai1.doubleJump(game, xVal2, yVal2);
+            PossibleMove move1 = aiObj.doubleJump(game, xVal2, yVal2);
             xVal1 = move1.xVal1;
             yVal1 = move1.yVal1;
             xVal2 = move1.xVal2;
@@ -840,12 +810,8 @@ public class OnePlayerCheckers extends AppCompatActivity {
             boolean jump = move1.jump;
             addToUndoArr(true);
             game.updateGameboard(xVal1, yVal1, xVal2, yVal2, jump);
-//            updateBoard();
-//            testTxt.setText("Player 1's Turn!");
             if (game.doubleJumpO(xVal2, yVal2)) {
-
                 doubleJump = true;
-//                testTxt.setText("You may jump again!");
                 dj = new space(yVal2, xVal2);
             } else {
                 turnNumber++;
@@ -856,30 +822,28 @@ public class OnePlayerCheckers extends AppCompatActivity {
             start = new space();
             xVal1 = -1;
         } else {
-//            testTxt.setText("Let me calculate my move!");
-            PossibleMove move1 = ai1.determineFastMove(movesAhead, game);
+            PossibleMove move1 = aiObj.determineFastMove(movesAhead, game);
             xVal1 = move1.xVal1;
             yVal1 = move1.yVal1;
             xVal2 = move1.xVal2;
             yVal2 = move1.yVal2;
             boolean jump = move1.jump;
+
             if (jump) {
                 addToUndoArr(true);
             } else {
                 addToUndoArr(false);
             }
+
             if (game.pieceO(xVal1,yVal1)){
                 jumplessTurns=0;
             }
+
             game.updateGameboard(xVal1, yVal1, xVal2, yVal2, jump);
-//            testTxt.setText("Player 1's Turn!");
-//            updateBoard();
             if (jump) {
                 jumplessTurns = 0;
                 if (game.doubleJumpO(xVal2, yVal2)) {
-
                     doubleJump = true;
-//                    testTxt.setText("You may jump again!");
                     dj = new space(yVal2, xVal2);
                 } else {
                     turnNumber++;
@@ -896,8 +860,6 @@ public class OnePlayerCheckers extends AppCompatActivity {
             start = new space();
             xVal1 = -1;
         }
-        //updateBoard();
-//        testTxt.setText("len :"+undoMoveArr.len);
     }
 
     private void suggestMoveUpdate() {
@@ -919,11 +881,12 @@ public class OnePlayerCheckers extends AppCompatActivity {
             }
         }
     }
+
     private class fixTextView extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute(){
             testTxt.setText("Player 1's Turn!");
-            abc = false;
+            board_formatted = false;
         }
         @Override
         protected Void doInBackground(Void... voids) {
@@ -935,7 +898,6 @@ public class OnePlayerCheckers extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void noth) {
-
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -970,23 +932,11 @@ public class OnePlayerCheckers extends AppCompatActivity {
             pics.setY(boardOffset);
             buttons.setY(boardOffset);
 
-
-
             ViewGroup.LayoutParams params = buttons.getLayoutParams();
             params.width = (int)(width-(4*bannerWidth));
             params.height= (int)(width-(3*bannerWidth));
-
             buttons.setLayoutParams(params);
             pics.setLayoutParams(params);
-//            ViewGroup.LayoutParams banners = buttons.getLayoutParams();
-//            banners.width = (int)width;
-//            banners.height = (int)bannerWidth;
-//            top.setLayoutParams(banners);
-//            bot.setLayoutParams(banners);
-//            banners.width = (int)bannerWidth;
-//            banners.height = (int)width;
-//            left.setLayoutParams(banners);
-//            right.setLayoutParams(banners);
             top.getLayoutParams().height=(int)bannerWidth;
             top.getLayoutParams().width = (int)width;
             bot.getLayoutParams().height=(int)bannerWidth;
@@ -1043,7 +993,6 @@ public class OnePlayerCheckers extends AppCompatActivity {
                 imgArr[6][i].getLayoutParams().height=screenHeight;
                 imgArr[6][i].getLayoutParams().width=screenHeight;
                 i--;
-
             }
             int arrI[] = new int[2];
             int arrB[] = new int[2];
@@ -1052,25 +1001,10 @@ public class OnePlayerCheckers extends AppCompatActivity {
             undoButt.getLocationOnScreen(arrB);
             int tI = testTxt.getHeight();
             int midway = ((arrI[1]+arrB[1]+ hI - (tI/2))/2);
-//            testTxt.setY(midway);
             testTxt.setText("Player 1's Turn!");
-
             testTxt.setY(midway);
-//            int arrI[] = new int[2];
-//            int arrB[] = new int[2];
-//            int hI = imgArr[7][6].getHeight();
-//            int sbI = undoButt.getHeight();
-//            imgArr[7][6].getLocationOnScreen(arrI);
-//            undoButt.getLocationOnScreen(arrB);
-//            int tI = testTxt.getHeight();
-//            int midway = ((arrI[1]+arrB[1]+hI+(tI/2))/2);
-////            testTxt.setY(midway);
             testTxt.setText("Player 1's Turn!");
-            abc = false;
-
-
-
-
+            board_formatted = false;
         }
     }
 
@@ -1081,8 +1015,8 @@ public class OnePlayerCheckers extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            AI ai1 = new AI();
-            PossibleMove move1 = ai1.determineSuggestedX(movesAhead, game);
+            AI aiObj = new AI();
+            PossibleMove move1 = aiObj.determineSuggestedX(movesAhead, game);
             xVal1S = move1.xVal1;
             yVal1S = move1.yVal1;
             xVal2S = move1.xVal2;
@@ -1101,7 +1035,7 @@ public class OnePlayerCheckers extends AppCompatActivity {
         }
     }
 
-    private class OturnTest extends AsyncTask<Void, Void, Void> {
+    private class SugestMoveAsync extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             testTxt.setText("Calculating...");
